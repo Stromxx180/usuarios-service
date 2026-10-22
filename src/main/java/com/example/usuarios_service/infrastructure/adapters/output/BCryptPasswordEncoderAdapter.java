@@ -13,4 +13,9 @@ public class BCryptPasswordEncoderAdapter implements PasswordEncoderPort {
     public String encriptar(String password) {
         return encoder.encode(password);
     }
+
+    @Override
+    public boolean validarClave(String clavePlana, String claveEncriptada) {
+        return encoder.matches(clavePlana, claveEncriptada);
+    }
 }

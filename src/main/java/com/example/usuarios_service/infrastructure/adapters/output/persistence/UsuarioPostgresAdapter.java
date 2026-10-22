@@ -4,6 +4,8 @@ import com.example.usuarios_service.application.ports.output.UsuarioRepositoryPo
 import com.example.usuarios_service.domain.models.Usuario;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class UsuarioPostgresAdapter implements UsuarioRepositoryPort {
 
@@ -35,7 +37,13 @@ public class UsuarioPostgresAdapter implements UsuarioRepositoryPort {
         return springDataUsuarioRepository.existsByDocumentoDeIdentidad(documento);
     }
 
-    // --- MÉTODOS DE MAPEOMIN (Traducir de Dominio <-> Entidad JPA) ---
+    @Override
+    public Optional<Usuario> obtenerPorCorreo(String correo) {
+        return springDataUsuarioRepository.findByCorreo(correo)
+                .map(this::toDomain);
+    }
+
+    // --- MÉTODOS DE MAPEO (Traducir de Dominio <-> Entidad JPA) ---
 
     private UsuarioEntity toEntity(Usuario usuario) {
         if (usuario == null) {
